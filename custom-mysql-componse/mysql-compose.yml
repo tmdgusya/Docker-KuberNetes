@@ -1,49 +1,49 @@
-version : "1"
+version : "3"
 services:
   master-db:
     image: mysql:5.7
-    restart: always
     container_name: mysql-master
-    ports:
-      - "3306:3306"
     environment:
-      - MYSQL_DATABASE=SIDE
-      - MYSQL_ROOT_PASSWORD=SIDE!@#$
-      - TZ=Asia/Seoul
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MASTER_DB_PASSWORD}
+      TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - /Users/Shared/data/mysql-master:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
   
   slave-db:
     image: mysql:5.7
-    restart: always
     container_name: mysql-slave
-    ports:
-      - "3307:3306"
     environment:
-      - MYSQL_DATABASE=SIDE
-      - MYSQL_ROOT_PASSWORD=SIDE!@#$
-      - TZ=Asia/Seoul
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_ROOT_PASSWORD: $$SLAVE_DB_PASSWORD
+      TZ : Asia/Seoul
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - /Users/Shared/data/mysql-slave:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    restart: always
 
   test-db:
     image: mysql:5.7
-    restart: always
     container_name: mysql-test
-    ports:
-      - "3308:3306"
     environment:
-      - MYSQL_DATABASE=SIDE
-      - MYSQL_ROOT_PASSWORD=SIDE!@#$
-      - TZ=Asia/Seoul
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
+      TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - /Users/Shared/data/mysql-test:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    restart: always

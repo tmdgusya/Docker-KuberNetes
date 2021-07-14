@@ -1,0 +1,1 @@
+docker-compose -f mysql-compose.yml --env-file .env up -d
